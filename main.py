@@ -25,9 +25,7 @@ pytesseract.pytesseract.tesseract_cmd = tesseract_path
 detector = MrzDetector()
 reader = MrzReader()
 
-@app.get("/")
-async def root():
-    return {"message": "Hello Worldss"}
+
 
 @app.post("/mrz")
 async def root(myphoto: UploadFile = File(...)):
@@ -51,6 +49,9 @@ async def root(myphoto: UploadFile = File(...)):
     #except Exception as e:
      #   return e
 
+@app.get("/")
+async def root():
+    return {"message": "Hello Worldss"}
 
 
 
@@ -59,6 +60,12 @@ async def root(myphoto: UploadFile = File(...)):
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Optional[str] = None):
     return {"item_id": item_id, "q": q}
+
+
+
+
+
+
 
 @app.post('/decode_dg_idcard')
 async def decode_dg_idcard(token ,data : dict):
@@ -94,7 +101,7 @@ async def decode_dg_idcard(token ,data : dict):
             im_start = decoded.find(b"\x00\x00\x00\x0C\x6A\x50")
         image = decoded[im_start:]
         image = Image.open(io.BytesIO(image))
-        image = np.array(image.convert("RGB"))
+        #image = np.array(image.convert("RGB"))
 
         image = image[:, :, ::-1]
         # cv2.imwrite(str(dg2[60:75]+'_signature.png'),image)
