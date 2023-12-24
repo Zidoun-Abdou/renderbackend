@@ -101,7 +101,7 @@ async def decode_dg_idcard(token ,data : dict):
             im_start = decoded.find(b"\x00\x00\x00\x0C\x6A\x50")
         image = decoded[im_start:]
         image = Image.open(io.BytesIO(image))
-        #image = np.array(image.convert("RGB"))
+        image = np.array(image.convert("RGB"))
 
         image = image[:, :, ::-1]
         # cv2.imwrite(str(dg2[60:75]+'_signature.png'),image)
