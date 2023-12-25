@@ -12,7 +12,7 @@ from datetime import datetime
 
 from fastapi import FastAPI, Form
 from fastapi.middleware.cors import CORSMiddleware
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 import arabic_reshaper
 from bidi.algorithm import get_display
 from typing import Optional
@@ -139,7 +139,7 @@ async def generate_image(
         draw = ImageDraw.Draw(img)
 
         # Load a font
-        font = ImageFont.truetype("arial.ttf", 80)  # You can replace "arial.ttf" with the path to your desired font file
+        # You can replace "arial.ttf" with the path to your desired font file
 
         # Set the text color
         text_color = (0, 0, 0)
