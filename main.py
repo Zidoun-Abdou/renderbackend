@@ -1,3 +1,4 @@
+from PIL.ImageFont import ImageFont
 from readmrz import MrzDetector, MrzReader
 import pytesseract
 from fastapi import UploadFile, File
@@ -133,14 +134,13 @@ async def generate_image(
     base64_face: str = Form(""),
 
 ):
-    #try:
-        # Open the image
+
         img = Image.open("contrat.jpg")
         draw = ImageDraw.Draw(img)
 
         # Load a font
         # You can replace "arial.ttf" with the path to your desired font file
-
+        font = ImageFont.truetype("/usr/share/fonts/truetype/freefont/arial.ttf", 80)
         # Set the text color
         text_color = (0, 0, 0)
 
@@ -166,9 +166,6 @@ async def generate_image(
         today = datetime.today().strftime('%d/%m/%Y')
         draw.text((280, 2795), today, font=font, fill=text_color)
 
-         # Adjust the size as needed
-
-
 
         # Paste the photo onto the main image
         img.paste(base64_to_image(base64_text, target_size=(500, 300)), (1310, 2795))
@@ -185,10 +182,7 @@ async def generate_image(
       "success": True,
       "image": base64_string
         }
-    #except:
-    #    return {
-     #       "success": False,
-      #  }
+
 
 
 
