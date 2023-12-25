@@ -1,21 +1,34 @@
-from typing import Optional
-
 from readmrz import MrzDetector, MrzReader
-from pathlib import Path
 import pytesseract
-from fastapi import FastAPI,UploadFile, File,Request
+from fastapi import UploadFile, File
 import shutil
 import cv2
-import base64
 import codecs
 import re
 import numpy as np
-from PIL import Image
 import io
+import base64
 from datetime import datetime
+
+from fastapi import FastAPI, Form
+from fastapi.middleware.cors import CORSMiddleware
+from PIL import Image, ImageDraw, ImageFont
+import arabic_reshaper
+from bidi.algorithm import get_display
+from typing import Optional
+from io import BytesIO
 
 
 app = FastAPI()
+
+# Enable CORS for all routes
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 tesseract_path = '/usr/bin/tesseract'
@@ -60,6 +73,122 @@ async def root():
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Optional[str] = None):
     return {"item_id": item_id, "q": q}
+
+
+def arabic_reshape(text):
+    reshaped_text = arabic_reshaper.reshape(text)
+    bidi_text = get_display(reshaped_text)
+    return bidi_text
+
+def base64_to_image(base64_string, target_size=(300, 300)):
+    # Remove the data URI prefix if it exists
+    if base64_string.startswith('data:image'):
+        base64_string = base64_string.split(',')[1]
+
+    # Decode the Base64 string
+    image_data = base64.b64decode(base64_string)
+
+    # Create a BytesIO object to read the image data
+    image_stream = BytesIO(image_data)
+
+    # Open the image using PIL (Pillow)
+    image = Image.open(image_stream)
+
+    # Resize the image
+    resized_image = image.resize(target_size)
+
+    return resized_image
+
+def image_to_base64(image_path):
+    with open(image_path, "rb") as image_file:
+        # Encode the binary data of the image using base64
+        encoded_string = base64.b64encode(image_file.read())
+        # Convert bytes to a string
+        base64_string = encoded_string.decode("utf-8")
+        return base64_string
+
+@app.post("/generate_image/")
+async def generate_image(
+    n_appel: str = Form(...),
+    n_carte_sim: str = Form(...),
+    n_serie: str = Form(...),
+    imei: str = Form(...),
+    daira: str = Form(...),
+    baladia_latin: str = Form(...),
+    baladia_arab: str = Form(...),
+    deliv_date: str = Form(...),
+    exp_date: str = Form(""),
+    surname_latin: str = Form(...),
+    surname_arabic: str = Form(...),
+    birthplace_latin: str = Form(""),
+    birthplace_arabic: str = Form(""),
+    birth_date: str = Form(""),
+    sexe_latin: str = Form(""),
+    sex_arabic: str = Form(""),
+    blood_type: str = Form(""),
+    nin: str = Form(""),
+    name_latin: str = Form(""),
+    name_arabic: str = Form(""),
+    base64_text: str = Form(""),
+    base64_face: str = Form(""),
+
+):
+    try:
+        # Open the image
+        img = Image.open("contrat.jpg")
+        draw = ImageDraw.Draw(img)
+
+        # Load a font
+        font = ImageFont.truetype("arial.ttf", 80)  # You can replace "arial.ttf" with the path to your desired font file
+
+        # Set the text color
+        text_color = (0, 0, 0)
+
+        # Draw the text on the image
+        img.paste(base64_to_image(base64_face, target_size=(300, 300)), (2150, 300))
+        draw.text((1000, 650), n_appel, font=font, fill=text_color)
+        draw.text((1000, 755), n_carte_sim, font=font, fill=text_color)
+        draw.text((300, 860), n_serie, font=font, fill=text_color)
+        draw.text((1400, 860), imei, font=font, fill=text_color)
+        draw.text((280, 1200), surname_latin, font=font, fill=text_color)
+        draw.text((1500, 1200), arabic_reshape(surname_arabic), font=font, fill=text_color)
+        draw.text((280, 1305), name_latin, font=font, fill=text_color)
+        draw.text((1500, 1305), arabic_reshape(name_arabic), font=font, fill=text_color)
+        draw.text((1000, 1410), birth_date, font=font, fill=text_color)
+        draw.text((1600, 1715), arabic_reshape(birthplace_arabic), font=font, fill=text_color)
+        draw.text((280, 1715), birthplace_latin, font=font, fill=text_color)
+        draw.text((1000, 1820), daira, font=font, fill=text_color)
+        draw.text((445, 2115), "X", font=font, fill=text_color)
+        draw.text((1000, 2220), nin, font=font, fill=text_color)
+        draw.text((280, 2325), deliv_date, font=font, fill=text_color)
+        draw.text((1610, 2325), baladia_latin, font=font, fill=text_color)
+        # Get the current date
+        today = datetime.today().strftime('%d/%m/%Y')
+        draw.text((280, 2795), today, font=font, fill=text_color)
+
+         # Adjust the size as needed
+
+
+
+        # Paste the photo onto the main image
+        img.paste(base64_to_image(base64_text, target_size=(500, 300)), (1310, 2795))
+
+
+        # Save the modified image
+        output_path = 'output.jpg'
+        img.save(output_path)
+
+        image_path = "output.jpg"
+        base64_string = image_to_base64(image_path)
+
+        return {
+      "success": True,
+      "image": base64_string
+        }
+    except:
+        return {
+            "success": False,
+        }
 
 
 
