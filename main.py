@@ -133,7 +133,7 @@ async def generate_image(
     base64_face: str = Form(""),
 
 ):
-    try:
+    #try:
         # Open the image
         img = Image.open("contrat.jpg")
         draw = ImageDraw.Draw(img)
@@ -185,10 +185,10 @@ async def generate_image(
       "success": True,
       "image": base64_string
         }
-    except:
-        return {
-            "success": False,
-        }
+    #except:
+    #    return {
+     #       "success": False,
+      #  }
 
 
 
