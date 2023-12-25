@@ -140,7 +140,7 @@ async def generate_image(
 
         # Load a font
         # You can replace "arial.ttf" with the path to your desired font file
-        font = ImageFont.truetype("/usr/share/fonts/truetype/freefont/arial.ttf", 80)
+        font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 80)
         # Set the text color
         text_color = (0, 0, 0)
 
