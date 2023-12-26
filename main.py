@@ -12,7 +12,6 @@ from datetime import datetime
 from fastapi import FastAPI, Form
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image, ImageDraw,ImageFont
-import arabic_reshaper
 from bidi.algorithm import get_display
 from typing import Optional
 from io import BytesIO
@@ -80,10 +79,7 @@ def read_item(item_id: int, q: Optional[str] = None):
     return {"item_id": item_id, "q": q}
 
 
-def arabic_reshape(text):
-    reshaped_text = arabic_reshaper.reshape(text)
-    bidi_text = get_display(reshaped_text)
-    return bidi_text
+
 
 def base64_to_image(base64_string, target_size=(300, 300)):
     # Remove the data URI prefix if it exists
@@ -135,7 +131,7 @@ async def generate_image(
     name_latin: str = Form(""),
     name_arabic: str = Form(""),
     base64_text: str = Form(""),
-    base64_face: str = Form(""),
+        base64_face: str = Form(""),
 
 ):
     try:
@@ -157,9 +153,9 @@ async def generate_image(
         draw.text((280, 1200), surname_latin, font=font, fill=text_color)
         draw.text((1500, 1200), surname_arabic, font=font, fill=text_color)
         draw.text((280, 1305), name_latin, font=font, fill=text_color)
-        draw.text((1500, 1305), arabic_reshape(name_arabic), font=font, fill=text_color)
+        draw.text((1500, 1305), name_arabic, font=font, fill=text_color)
         draw.text((1000, 1410), birth_date, font=font, fill=text_color)
-        draw.text((1600, 1715), arabic_reshape(birthplace_arabic), font=font, fill=text_color)
+        draw.text((1600, 1715), birthplace_arabic, font=font, fill=text_color)
         draw.text((280, 1715), birthplace_latin, font=font, fill=text_color)
         draw.text((1000, 1820), daira, font=font, fill=text_color)
         draw.text((445, 2115), "X", font=font, fill=text_color)
