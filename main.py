@@ -58,7 +58,7 @@ async def root(myphoto: UploadFile = File(...)):
         dict_recult["expiry_date"] = result['expiry_date'][2:4] + '/' + result['expiry_date'][4:] + '/' + "20" + result['expiry_date'][0:2]
         dict_recult["document_number"]=result["document_number"]
         return {
-            "success": False,
+            "success": True,
             "mrz":dict_recult
         }
 
