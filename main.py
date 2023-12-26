@@ -41,7 +41,7 @@ reader = MrzReader()
 
 @app.post("/mrz")
 async def root(myphoto: UploadFile = File(...)):
-    #try:
+    try:
         dict_recult={}
         original_frant = "path_frant.png"
         with open(original_frant, "wb") as f:
@@ -57,9 +57,15 @@ async def root(myphoto: UploadFile = File(...)):
 
         dict_recult["expiry_date"] = result['expiry_date'][2:4] + '/' + result['expiry_date'][4:] + '/' + "20" + result['expiry_date'][0:2]
         dict_recult["document_number"]=result["document_number"]
-        return dict_recult
-    #except Exception as e:
-     #   return e
+        return {
+            "success": False,
+            "mrz":dict_recult
+        }
+
+    except:
+        return {
+            "success": False,
+        }
 
 @app.get("/")
 async def root():
@@ -132,7 +138,7 @@ async def generate_image(
     base64_face: str = Form(""),
 
 ):
-
+    try:
         img = Image.open("contrat.jpg")
         draw = ImageDraw.Draw(img)
 
@@ -179,6 +185,10 @@ async def generate_image(
         return {
       "success": True,
       "image": base64_string
+          }
+    except:
+        return {
+            "success": False,
         }
 
 
