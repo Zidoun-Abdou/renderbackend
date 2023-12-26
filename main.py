@@ -1,4 +1,3 @@
-from PIL.ImageFont import ImageFont
 from readmrz import MrzDetector, MrzReader
 import pytesseract
 from fastapi import UploadFile, File
@@ -10,10 +9,9 @@ import numpy as np
 import io
 import base64
 from datetime import datetime
-
 from fastapi import FastAPI, Form
 from fastapi.middleware.cors import CORSMiddleware
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw,ImageFont
 import arabic_reshaper
 from bidi.algorithm import get_display
 from typing import Optional
