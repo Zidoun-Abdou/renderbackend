@@ -1,0 +1,24 @@
+
+# path: C:/Users/icosnet/Desktop/hamza/card_info/dataset/  # dataset root dir
+train: E:/hamza/card_info/dataset/v2/images/train  # train images (relative to 'path') 128 images
+val: E:/hamza/card_info/dataset/v2/images/valid  # val images (relative to 'path') 128 images
+# test: v1/images/test  # test images (optional)
+
+# # Classes
+# names:
+#   0: card
+#   1: not_card
+
+names:
+  0: arabic_name
+  1: arabic_surname
+  2: birth_date
+  3: card_number
+  4: code_of_the_card
+  5: creation_date
+  6: expiration_date
+  7: face_image
+  8: french_name
+  9: french_surname
+  10: id_number
+  11: signatur

@@ -1,0 +1,15 @@
+
+path: ../DATA_ico/  # dataset root dir
+train: datasetv6/images/train  # train images (relative to 'path') 128 images
+val: datasetv6/images/valid  # val images (relative to 'path') 128 images
+test: datasetv6/images/test  # test images (optional)
+
+# # Classes
+# names:
+#   0: card
+#   1: not_card
+
+names:
+  0: back_card
+  1: face_card
+  2: no_card
