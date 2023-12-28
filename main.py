@@ -13,7 +13,6 @@ from datetime import datetime
 from fastapi import FastAPI, Form
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image, ImageDraw,ImageFont
-from bidi.algorithm import get_display
 from typing import Optional
 from io import BytesIO
 
