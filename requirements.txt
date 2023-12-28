@@ -43,4 +43,6 @@ python-bidi==0.4.2
 torch==2.0.1
 easyocr==1.7.0
 pandas
-
+psutil
+ipython
+ipython-genutils
