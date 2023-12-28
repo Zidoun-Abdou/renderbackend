@@ -768,6 +768,7 @@ class Detections:
             im = Image.fromarray(im.astype(np.uint8)) if isinstance(im, np.ndarray) else im  # from np
             if show:
                # display(im) if is_notebook() else im.show(self.files[i])
+                print("deleted function")
             if save:
                 f = self.files[i]
                 im.save(save_dir / f)  # save
