@@ -47,3 +47,4 @@ psutil
 ipython
 ipython-genutils
 tqdm==4.66.0
+matplotlib
