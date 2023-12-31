@@ -188,7 +188,6 @@ async def generate_image(
             "success": False,
         }
 
-
 @app.post('/decode_dg_idcard')
 async def decode_dg_idcard(token ,data : dict):
     return_dict={"dg2":" ","dg7":" ","dg11":" ","dg12":" "}
