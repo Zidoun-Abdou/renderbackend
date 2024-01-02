@@ -142,6 +142,8 @@ async def generate_image(
         # Load a font
         # You can replace "arial.ttf" with the path to your desired font file
         font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 80, encoding="utf-8")
+        font2 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 50, encoding="utf-8")
+
         # Set the text color
         text_color = (0, 0, 0)
 
@@ -162,7 +164,7 @@ async def generate_image(
         draw.text((445, 2115), "X", font=font, fill=text_color)
         draw.text((1000, 2220), nin, font=font, fill=text_color)
         draw.text((280, 2325), deliv_date, font=font, fill=text_color)
-        draw.text((1610, 2325), baladia_latin, font=font, fill=text_color)
+        draw.text((1610, 2325), baladia_latin, font=font2, fill=text_color)
         # Get the current date
         today = datetime.today().strftime('%d/%m/%Y')
         draw.text((280, 2795), today, font=font, fill=text_color)
