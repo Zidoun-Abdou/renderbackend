@@ -195,7 +195,7 @@ async def generate_image(
         base64_string1 = image_to_base64(image_path1)
 
         output_path2 = 'output2.jpg'
-        img.save(output_path2)
+        img2.save(output_path2)
 
         image_path2 = "output2.jpg"
         base64_string2 = image_to_base64(image_path2)
