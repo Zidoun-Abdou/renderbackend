@@ -201,16 +201,15 @@ async def generate_image(
         base64_string2 = image_to_base64(image_path2)
 
         return {
-      "success": True,
-      "image": base64_string,
-      "image": base64_string1,
-      "image": base64_string2
+          "success": True,
+          "image": base64_string,
+          "image1": base64_string1,
+          "image2": base64_string2
         }
     except:
         return {
             "success": False,
         }
-
 @app.post('/decode_dg_idcard')
 async def decode_dg_idcard(token ,data : dict):
     return_dict={"dg2":" ","dg7":" ","dg11":" ","dg12":" "}
