@@ -139,6 +139,10 @@ async def generate_image(
         img = Image.open("contrat.jpg")
         draw = ImageDraw.Draw(img)
 
+        img1 = Image.open("contrat1.jpg")
+
+        img2 = Image.open("contrat2.jpg")
+
         # Load a font
         # You can replace "arial.ttf" with the path to your desired font file
         font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 80, encoding="utf-8")
@@ -172,6 +176,9 @@ async def generate_image(
 
         # Paste the photo onto the main image
         img.paste(base64_to_image(base64_text, target_size=(500, 300)), (1310, 2795))
+        img1.paste(base64_to_image(base64_text, target_size=(500, 300)), (1310, 2795))
+        img2.paste(base64_to_image(base64_text, target_size=(500, 300)), (1310, 2795))
+
 
 
         # Save the modified image
@@ -181,10 +188,24 @@ async def generate_image(
         image_path = "output.jpg"
         base64_string = image_to_base64(image_path)
 
+        output_path1 = 'output1.jpg'
+        img1.save(output_path1)
+
+        image_path1 = "output1.jpg"
+        base64_string1 = image_to_base64(image_path1)
+
+        output_path2 = 'output2.jpg'
+        img.save(output_path2)
+
+        image_path2 = "output2.jpg"
+        base64_string2 = image_to_base64(image_path2)
+
         return {
       "success": True,
-      "image": base64_string
-          }
+      "image": base64_string,
+      "image": base64_string1,
+      "image": base64_string2
+        }
     except:
         return {
             "success": False,
