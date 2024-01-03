@@ -153,10 +153,10 @@ async def generate_image(
 
         # Draw the text on the image
         img.paste(base64_to_image(base64_face, target_size=(300, 300)), (2150, 300))
-        draw.text((1000, 650), n_appel, font=font, fill=text_color)
+        """draw.text((1000, 650), n_appel, font=font, fill=text_color)
         draw.text((1000, 755), n_carte_sim, font=font, fill=text_color)
         draw.text((300, 860), n_serie, font=font, fill=text_color)
-        draw.text((1400, 860), imei, font=font, fill=text_color)
+        draw.text((1400, 860), imei, font=font, fill=text_color)"""
         draw.text((280, 1200), surname_latin, font=font, fill=text_color)
         draw.text((1500, 1200), surname_arabic, font=font, fill=text_color)
         draw.text((280, 1305), name_latin, font=font, fill=text_color)
