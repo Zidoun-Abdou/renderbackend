@@ -2,6 +2,7 @@ from readmrz import MrzDetector, MrzReader
 import pytesseract
 import random
 from fastapi import UploadFile, File
+from fastapi.responses import FileResponse
 import shutil
 import cv2
 import codecs
@@ -70,6 +71,11 @@ async def root(myphoto: UploadFile = File(...)):
 @app.get("/")
 async def root():
     return {"message": "Hello Worldss"}
+
+
+@app.get("/output.jpg")
+def read_output_image():
+    return FileResponse("output.jpg")
 
 
 
