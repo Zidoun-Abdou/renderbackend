@@ -75,7 +75,7 @@ async def root():
 
 @app.get("/output.jpg")
 def read_output_image():
-    return FileResponse("output.jpg")
+    return FileResponse("contract.pdf")
 
 
 
