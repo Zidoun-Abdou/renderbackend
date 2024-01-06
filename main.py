@@ -230,13 +230,12 @@ async def generate_image(
 
 
 
-        return FileResponse("contract.pdf")#{
-
-          # "success": True,
-          # "image": base64_string,
-          # "image1": base64_string1,
-          # "image2": base64_string2
-        #}
+        return {
+          "success": True,
+          "image": base64_string,
+          "image1": base64_string1,
+          "image2": base64_string2
+            }
     # except:
     #     return {
     #         "success": False,
