@@ -153,7 +153,7 @@ async def generate_image(
         base64_face: str = Form(""),
 
 ):
-    #try:
+    try:
         img = Image.open("contrat.jpg")
         draw = ImageDraw.Draw(img)
 
@@ -236,10 +236,10 @@ async def generate_image(
           "image1": base64_string1,
           "image2": base64_string2
             }
-    # except:
-    #     return {
-    #         "success": False,
-    #     }
+    except:
+        return {
+            "success": False,
+        }
 @app.post('/decode_dg_idcard')
 async def decode_dg_idcard(token ,data : dict):
     return_dict={"dg2":" ","dg7":" ","dg11":" ","dg12":" "}
