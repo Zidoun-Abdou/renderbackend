@@ -7,6 +7,7 @@ import shutil
 import cv2
 import codecs
 import re
+from fpdf import FPDF
 import numpy as np
 import io
 import base64
@@ -115,6 +116,17 @@ def image_to_base64(image_path):
         base64_string = encoded_string.decode("utf-8")
         return base64_string
 
+
+def create_pdf(image_paths, output_pdf):
+    pdf = FPDF()
+
+    for image_path in image_paths:
+        pdf.add_page()
+        pdf.image(image_path, x=10, y=10, w=190)
+
+    pdf.output(output_pdf)
+
+
 @app.post("/generate_image/")
 async def generate_image(
     n_appel: str = Form(...),
@@ -141,9 +153,10 @@ async def generate_image(
         base64_face: str = Form(""),
 
 ):
-    try:
+    #try:
         img = Image.open("contrat.jpg")
         draw = ImageDraw.Draw(img)
+
 
         img1 = Image.open("contrat1.jpg")
 
@@ -153,6 +166,9 @@ async def generate_image(
         # You can replace "arial.ttf" with the path to your desired font file
         font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 80, encoding="utf-8")
         font2 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 50, encoding="utf-8")
+        # font = ImageFont.truetype("arial.ttf",80)
+        # font2 = ImageFont.truetype("arial.ttf",50)
+
 
         # Set the text color
         text_color = (0, 0, 0)
@@ -182,8 +198,8 @@ async def generate_image(
 
         # Paste the photo onto the main image
         img.paste(base64_to_image(base64_text, target_size=(500, 300)), (1310, 2795))
-        img1.paste(base64_to_image(base64_text, target_size=(500, 300)), (1310, 2795))
-        img2.paste(base64_to_image(base64_text, target_size=(500, 300)), (1310, 2795))
+        img1.paste(base64_to_image(base64_text, target_size=(100, 100)), (50, 1300))
+        img2.paste(base64_to_image(base64_text, target_size=(100, 100)), (950, 1500))
 
 
 
@@ -205,17 +221,26 @@ async def generate_image(
 
         image_path2 = "output2.jpg"
         base64_string2 = image_to_base64(image_path2)
+        image_paths = ["output.jpg", "output1.jpg", "output2.jpg"]
 
-        return {
-          "success": True,
-          "image": base64_string,
-          "image1": base64_string1,
-          "image2": base64_string2
-        }
-    except:
-        return {
-            "success": False,
-        }
+
+        output_pdf = "contract.pdf"
+
+        create_pdf(image_paths, output_pdf)
+
+
+
+        return FileResponse("contract.pdf")#{
+
+          # "success": True,
+          # "image": base64_string,
+          # "image1": base64_string1,
+          # "image2": base64_string2
+        #}
+    # except:
+    #     return {
+    #         "success": False,
+    #     }
 @app.post('/decode_dg_idcard')
 async def decode_dg_idcard(token ,data : dict):
     return_dict={"dg2":" ","dg7":" ","dg11":" ","dg12":" "}
